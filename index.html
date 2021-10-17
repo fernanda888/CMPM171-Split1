@@ -43,17 +43,34 @@ options = {
   theme: "dark"
 };
 
-// Initalization of variables
-let player;
-player = {
+/** @type {{angle: number, length: number, pos: Vector}} */
+let turr;
+/** @type {Vector[]} */
+const turrLength = 7;
 
-};
-
+// 'update()' is called every frame (60 times per second).
 function update() {
+  // 'ticks' counts the number of frames from the start of the game.
   if (!ticks) {
-    SPEED = 1;
+    turr = { angle: 0, length: turrLength, pos:vec(G.WIDTH/4, G.HEIGHT/2) };
   }
-
+  color("blue");
+  box(vec(1, G.HEIGHT/2),G.WIDTH/2,G.HEIGHT);
+  color("green");
+  box(turr.pos,7,7);
+  // 'difficulty' represents the difficulty of the game.
+  // The value of this variable is 1 at the beginning of the game and
+  // increases by 1 every minute.
+  let scr = difficulty * 0.02;
+  if (turr.pos.y < 80) {
+    scr += (80 - turr.pos.y) * 0.1;
+  }
+  turr.angle += difficulty * 0.05;
+  // Draw a line connecting the coordinates of
+  // the first argument and the second argument.
+  color("green");
+  line(turr.pos, vec(turr.pos).addWithAngle(turr.angle, turr.length));
+  
 }
 
 addEventListener("load", onLoad);
